@@ -1,6 +1,6 @@
 from .models import Evento
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
@@ -43,6 +43,7 @@ def novo_evento(request):
         return redirect(reverse('novo_evento'))
 
 
+@login_required
 def gerenciar_evento(request):
     if request.method == "GET":
         nome = request.GET.get('nome')
@@ -54,3 +55,12 @@ def gerenciar_evento(request):
             eventos = eventos.filter(nome__contains=nome)
 
         return render(request, 'gerenciar_evento.html', {'eventos': eventos})
+    
+
+@login_required
+def inscrever_evento(request, id):
+	# Validar login
+    evento = get_object_or_404(Evento, id=id)
+
+    if request.method == "GET":
+        return render(request, 'inscrever_evento.html', {'evento': evento})

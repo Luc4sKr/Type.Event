@@ -13,3 +13,7 @@ td,
 th {
     padding: 20px;
 }
+
+.link-inscricao {
+    cursor: pointer;
+}
